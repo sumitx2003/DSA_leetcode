@@ -6,10 +6,10 @@ public:
 
         if(t[idx]!=-1)return t[idx];
 
-        int steal=nums[idx]+solve(nums,idx+2);
+        int take=nums[idx]+solve(nums,idx+2);
         int skip=solve(nums,idx+1);
 
-        return t[idx]=max(steal,skip);
+        return t[idx]=max(skip,take);
     }
     int rob(vector<int>& nums) {
         memset(t,-1,sizeof(t));
