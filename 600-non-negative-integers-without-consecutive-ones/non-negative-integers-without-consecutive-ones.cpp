@@ -18,10 +18,10 @@ public:
             ans+=solve(pos+1,newtight,d==1);
         }
 
-        if(!tight){
-            t[pos][tight][prevOne]=ans;
-        } 
-        return ans;
+        // if(!tight){
+        //     t[pos][tight][prevOne]=ans;
+        // } 
+        return t[pos][tight][prevOne]=ans;
     }
     int findIntegers(int n) {
         memset(t,-1,sizeof(t));
