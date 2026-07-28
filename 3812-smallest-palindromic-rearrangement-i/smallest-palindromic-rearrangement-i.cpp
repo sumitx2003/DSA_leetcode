@@ -13,7 +13,7 @@ public:
            } 
         }
         string s1="";
-        string s2="";
+       // string s2="";
         string middle="";
         int i=0;
         while(i<s.length()){
@@ -23,20 +23,22 @@ public:
                 int y=x/2;
                 while(y){
                     s1+=s[i];
-                    s2+=s[i];
+                  //  s2+=s[i];
                     y--;
                 }
                 i+=x;
             }
             else{
                 s1+=s[i];
-                s2+=s[i+1];
+                //s2+=s[i+1];
                 i+=2;
             }
         }
         string str;
-         reverse(s2.begin(),s2.end());
-         str+=s1+middle+s2;
+         
+         str+=s1+middle;
+         reverse(s1.begin(),s1.end());
+         str+=s1;
         return str;
     }
 };
