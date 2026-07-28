@@ -11,38 +11,13 @@
  */
 class Solution {
 public:
-    string s1="";
-    string s2="";
-    void dfs(TreeNode* root){
-        if(root==NULL){
-            s1+="*";
-            return ;
-        }
+   bool solve(TreeNode* p, TreeNode* q){
+    if(!p&&!q) return true;
+    if((!p&&q)||(p&&!q)) return false;
 
-        s1+=to_string(root->val);
-        dfs(root->left);
-        dfs(root->right);
-
-
-    }
-       void dfs1(TreeNode* root){
-        if(root==NULL){
-            s2+="*";
-            return ;
-        }
-
-        s2+=to_string(root->val);
-        dfs1(root->left);
-        dfs1(root->right);
-
-
-    }
+    return p->val==q->val&&solve(p->left,q->left)&&solve(p->right,q->right);
+   }
     bool isSameTree(TreeNode* p, TreeNode* q) {
-       
-        dfs(p);
-        dfs1(q);
-        if(s1==s2)return true;
-
-        return false;
+        return solve(p,q);
     }
 };
