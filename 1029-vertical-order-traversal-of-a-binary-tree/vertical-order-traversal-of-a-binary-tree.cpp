@@ -12,54 +12,46 @@
 class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>>ans;
+        if(!root)return ans;
         unordered_map<int,vector<pair<int,int>>>mp;
-        unordered_map<TreeNode*,int>mp1;
-        queue<TreeNode*>q;
-        q.push(root);
+        set<int>st;
+
+        queue<tuple<TreeNode*,int,int>>q;
+        int row=0;
+        int col=0;
+        q.push({root,row,col});
         
-        mp[0].push_back({0,root->val});
-        mp1[root]=0;
-        int level=0;
-
-
         while(!q.empty()){
             int N=q.size();
-            level++;
             while(N--){
-                TreeNode* node=q.front();
+                TreeNode* node = get<0>(q.front());
+                int column = get<2>(q.front());
+                int row = get<1>(q.front());
                 q.pop();
-                int x=mp1[node];
+
+                mp[column].push_back({row,node->val});
+                st.insert(column);
 
                 if(node->left){
-                    q.push(node->left);
-                    mp1[node->left]=x-1;
-                    mp[x-1].push_back({level,node->left->val});
+                    q.push({node->left,row+1,column-1});
                 }
                 if(node->right){
-                    q.push(node->right);
-                    mp1[node->right]=x+1;
-                    mp[x+1].push_back({level,node->right->val});
+                    q.push({node->right,row+1,column+1});
                 }
             }
         }
-        // now we will solve the mp into the min to max
-        set<int>st;
-        for(auto &it:mp){
-            st.insert(it.first);
-        }
-
-        vector<vector<int>>ans;
+    
         for(auto &it:st){
-            vector<pair<int,int>>v=mp[it];
-            sort(v.begin(),v.end());
-            vector<int>vec;
-            for(int i=0;i<v.size();i++){
-                int x=v[i].second;
-                vec.push_back(x);
+            vector<pair<int,int>>vec=mp[it];
+            sort(vec.begin(),vec.end());
+            vector<int>a;
+            for(int j=0;j<vec.size();j++){
+                int u=vec[j].second;
+                a.push_back(u);
             }
-            ans.push_back(vec);
+            ans.push_back(a);
         }
         return ans;
-
     }
 };
