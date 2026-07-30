@@ -9,61 +9,68 @@
  */
 class Solution {
 public:
-    unordered_map<TreeNode*,TreeNode*>mp;
-    void inorder(TreeNode* root){
-        if(root==NULL)return ;
+    unordered_map<TreeNode*,TreeNode*>par;
+    vector<int>ans;
+
+    void solve(TreeNode* root){
+        if(!root)return;
 
         if(root->left){
-            mp[root->left]=root;
+            par[root->left]=root;
+            solve(root->left);
         }
-        inorder(root->left);
         if(root->right){
-            mp[root->right]=root;
+            par[root->right]=root;
+            solve(root->right);
         }
-        inorder(root->right);
     }
+    void bfs(TreeNode* root,int k){
+        queue<TreeNode*>q;
+        q.push(root);
+        unordered_set<TreeNode*>st;
+        st.insert(root);
 
-    void BFS(TreeNode* target,int k,vector<int>&res){
-            queue<TreeNode*>q;
-            q.push(target);
-            unordered_set<int>vis;
-            vis.insert(target->val);
+        int x=k;
 
-            while(!q.empty()){
-                int N=q.size();
-                if(k==0)break;
-                while(N--){
-                    TreeNode* node=q.front();
+        while(!q.empty()){
+            int N=q.size();
+            if(x==0){
+                while(!q.empty()){
+                    TreeNode* temp=q.front();
                     q.pop();
-
-                    if(node->left && !vis.count(node->left->val)){
-                        q.push(node->left);
-                        vis.insert(node->left->val);
-                    }
-                    if(node->right && !vis.count(node->right->val)){
-                        q.push(node->right);
-                        vis.insert(node->right->val);
-                    }
-                    if(mp.count(node) && !vis.count(mp[node]->val)){
-                        q.push(mp[node]);
-                        vis.insert(mp[node]->val);
-                    }
+                    ans.push_back(temp->val);
                 }
-                k--;
+                break;
             }
-            while(!q.empty()){
-                TreeNode* temp=q.front();
+            while(N--){
+                TreeNode* node=q.front();
                 q.pop();
-                res.push_back(temp->val);
+
+                if(node->left  && st.find(node->left)==st.end()){
+                    q.push(node->left);
+                    st.insert(node->left);
+                }
+
+                if(node->right && st.find(node->right)==st.end()){
+                    q.push(node->right);
+                    st.insert(node->right);
+                }
+
+                if(par.find(node)!=par.end() && st.find(par[node])==st.end()){
+                    q.push(par[node]);
+                    st.insert(par[node]);
+                }
             }
+            x--;
+        }
     }
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        vector<int>res;
-        inorder(root);
+        if(!root)return ans;
 
-        BFS(target,k,res);
-
-        return res;
+        solve(root);
+        bfs(target,k);
+        
+        return ans;
 
     }
 };
