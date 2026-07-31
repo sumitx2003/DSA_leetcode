@@ -11,56 +11,57 @@
  */
 class Solution {
 public:
+    unordered_map<TreeNode*,TreeNode*>par;
+    TreeNode* strt=NULL;
+    void solve(TreeNode* root,int start){
+        if(!root)return;
+
+        if(root->val==start)strt=root;
+
+        if(root->left){
+            par[root->left]=root;
+            solve(root->left,start);
+        }
+        if(root->right){
+            par[root->right]=root;;
+            solve(root->right,start);
+        }
+    }
     int amountOfTime(TreeNode* root, int start) {
-        // first we have connvrt this into the graph or we can make the map for the parent
-        unordered_map<TreeNode*,TreeNode*>mp;
-        set<TreeNode*>st;
+        if(!root)return 0;
+
+        solve(root,start);
+
         queue<TreeNode*>q;
-        q.push(root);
-        TreeNode* strt;
-
-        while(!q.empty()){
-            int N=q.size();
-            while(N--){
-                TreeNode* node=q.front();
-                q.pop();
-                if(node->val==start)strt=node;
-
-                if(node->left){
-                    mp[node->left]=node;
-                    q.push(node->left);
-                }
-                if(node->right){
-                    mp[node->right]=node;
-                    q.push(node->right);
-                }
-            }
-        }
-        q.push(strt);
+        unordered_set<TreeNode*>st;
+        int time=0;
         st.insert(strt);
-        int count=0;
+        q.push(strt);
+
         while(!q.empty()){
             int N=q.size();
             while(N--){
                 TreeNode* node=q.front();
                 q.pop();
-                
-                if( node->left && st.find(node->left)==st.end()){
-                    st.insert(node->left);
+
+                if(node->left && st.find(node->left)==st.end()){
                     q.push(node->left);
+                    st.insert(node->left);
                 }
+
                 if(node->right && st.find(node->right)==st.end()){
-                    st.insert(node->right);
                     q.push(node->right);
+                    st.insert(node->right);
                 }
-                if(mp.find(node)!=mp.end() && st.find(mp[node])==st.end()){
-                    st.insert(mp[node]);
-                    q.push(mp[node]);
+
+                if(par.find(node)!=par.end() && st.find(par[node])==st.end()){
+                    q.push(par[node]);
+                    st.insert(par[node]);
                 }
             }
-            count++;
+            time++;
         }
-        return count-1;
-          
+        return time-1;
+        
     }
 };
