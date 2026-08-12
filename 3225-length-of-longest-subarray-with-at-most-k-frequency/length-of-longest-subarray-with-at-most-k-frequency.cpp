@@ -6,16 +6,10 @@ public:
         int i=0;
         int len=INT_MIN;
         while(j<nums.size()){
-            if(mp.find(nums[j])==mp.end()){
+            if(mp.find(nums[j])==mp.end() || mp[nums[j]]<k){
                 mp[nums[j]]++;
                 len=max(len,j-i+1);
-                j++;
-            }
-            else if(mp[nums[j]]<k){
-                mp[nums[j]]++;
-                len=max(len,j-i+1);
-                j++;
-                 
+            
             }
             else if(mp[nums[j]]==k){
                   len=max(len,j-i);
@@ -24,9 +18,9 @@ public:
                         mp[nums[i]]--;
                         i++;
                   }
-                  mp[nums[j]]++;
-                  j++;    
+                  mp[nums[j]]++;      
             }
+            j++;
         }
         return len;
     }
