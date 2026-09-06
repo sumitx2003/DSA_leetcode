@@ -13,21 +13,22 @@ class Solution {
 public:
     bool isUnivalTree(TreeNode* root) {
         queue<TreeNode*>q;
-        int value=root->val;
         q.push(root);
 
         while(!q.empty()){
             int N=q.size();
-            while(!q.empty()){
+            while(N--){
                 TreeNode* node=q.front();
-
                 q.pop();
 
-                if(node->val!=value)return false;
+                if(node->left && node->left->val!=node->val)return false;
 
-                if(node->left)q.push(node->left);
+                if(node->right && node->right->val!=node->val)return false;
 
-                if(node->right)q.push(node->right);
+                if(node->left && node->left->val==node->val){
+                    q.push(node->left);
+                }
+                if(node->right && node->right->val==node->val)q.push(node->right);
             }
         }
         return true;
