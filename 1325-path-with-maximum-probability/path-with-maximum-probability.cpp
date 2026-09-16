@@ -22,7 +22,7 @@ public:
                    double weight=q.top().first;
                    q.pop();
 
-                   //if(node==end_node)return weight;
+                   if(node==end_node)return weight;
 
                    for(int j=0;j<mp[node].size();j++){
                           int neigh=mp[node][j].first;
@@ -35,6 +35,6 @@ public:
                    }
               }
           }
-          return prob[end_node];
+          return 0;
     }
 };
