@@ -1,34 +1,40 @@
 class Solution {
 public:
     string evaluate(string s, vector<vector<string>>& knowledge) {
-        unordered_map<string,string> m;
-        for(int i=0;i<knowledge.size();i++){
-            string a=knowledge[i][0];
-            string b=knowledge[i][1];
-            m[a]=b;
-        }
-        string ans="";
-        int start=0;
-        bool flag=true;
-        for(int e=0;e<s.size();e++){
-            if(s[e]=='('){
-                start=e+1;
-                flag=false;
-            }
-            if(s[e]==')'){
-                string key=s.substr(start,e-start);
-                if(m.count(key)){
-                    ans+=m[key];
-                }
-                else{
-                    ans+='?';
-                }
-                flag=true;
-            }
-            if(flag&&s[e]!=')'){
-                ans+=s[e];
-            }
-        }
-        return ans;
+         unordered_map<string,string>mp;
+         for(int i=0;i<knowledge.size();i++){
+              string u=knowledge[i][0];
+              string v=knowledge[i][1];
+              mp[u]=v;
+         }
+         bool turn=false;
+         string str="";
+         string res="";
+         for(int i=0;i<s.length();i++){
+              if(s[i]=='('){
+                   turn=true;
+                   continue;
+              } 
+              else if(s[i]==')'){
+                    if(mp.find(str)!=mp.end()){
+                          res+=mp[str];
+                          str="";
+                    }
+                    else{
+                        res+="?";
+                        str="";
+                    }
+                    turn=false;
+
+              }
+              else if(turn==false){
+                   res.push_back(s[i]);
+              }
+              else if(turn==true){
+                   str.push_back(s[i]);
+              }
+            
+         }
+         return res;
     }
 };
