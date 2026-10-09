@@ -7,10 +7,19 @@
 -- ) t
 -- where rnk=2;
 
+-- select max(salary) as SecondHighestSalary
+-- from (
+--     select salary,
+--     dense_rank() over (order by salary desc) as rnk
+--     from Employee
+-- )t
+-- where rnk=2;
+
 select max(salary) as SecondHighestSalary
-from (
+
+from(
     select salary,
-    dense_rank() over (order by salary desc) as rnk
+    dense_rank() over(order by salary desc) as rnk
     from Employee
-)t
+) t
 where rnk=2;
