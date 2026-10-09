@@ -7,35 +7,29 @@ public:
         int i=0;
         while(i<s.length()){
              if(s[i]=='('){
-                  if(count==0){
-                      st.push('(');
-                  }
-                  else{
+                  if(count!=0){
+
                        ans++;
                        if(!st.empty()){
                           st.pop();
-                          count=0;
                        }
                        else{
                            ans++;
-                           count=0;
                        }
-                       st.push('(');
-                       
+                       count=0;
                   }
+                  st.push('(');
              }
              else{
                   count++;
                   if(count==2){
                       if(!st.empty()){
                           st.pop();
-                          count=0;
                       }
                       else{
                            ans++;
-                           count=0;
-
                       }
+                      count=0;
                   }
              }
              i++;
