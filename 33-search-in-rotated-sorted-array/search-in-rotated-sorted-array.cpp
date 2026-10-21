@@ -10,10 +10,14 @@ public:
                   return mid;
             }
             else if(nums[mid]>target){
-                  if(nums[si]<=target){
+                if(nums[si]==nums[mid]){
+                      si++;
+                      mid--;
+                }
+                 else if(nums[si]<=target){
                             ei=mid-1;
                   }
-                  else if(nums[si]>target && nums[si]<=nums[mid]){
+                  else if(nums[si]>target && nums[si]<nums[mid]){     
                           si=mid+1;
                   }
                   else{
@@ -21,10 +25,14 @@ public:
                   }
             }
             else {
-                if(nums[ei]>=target){
+                if(nums[mid]==nums[ei]){
+                     mid++;
+                     ei--;
+                }
+                else if(nums[ei]>=target){
                        si=mid+1;
                 }
-                else if(nums[ei]<target && (nums[mid]<=nums[ei])){
+                else if(nums[ei]<target && (nums[mid]<nums[ei])){
                       ei=mid-1;
                 }
                 else{
