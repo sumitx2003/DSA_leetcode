@@ -6,24 +6,29 @@ public:
 
         while(si<=ei){
             int mid=si+(ei-si)/2;
-
             if(nums[mid]==target){
-                return mid;
-            }
-            else if(nums[mid]<target){
-                if((nums[mid]<nums[ei] && target<=nums[ei]) || (nums[mid]>nums[si])){
-                    si=mid+1;
-                }
-                else{
-                    ei=mid-1;
-                }
+                  return mid;
             }
             else if(nums[mid]>target){
-                if((nums[mid]>nums[si] && target>=nums[si]) || (nums[mid]<nums[ei])){
-                    ei=mid-1;
+                  if(nums[si]<=target){
+                            ei=mid-1;
+                  }
+                  else if(nums[si]>target && nums[si]<=nums[mid]){
+                          si=mid+1;
+                  }
+                  else{
+                       ei=mid-1;
+                  }
+            }
+            else {
+                if(nums[ei]>=target){
+                       si=mid+1;
+                }
+                else if(nums[ei]<target && (nums[mid]<=nums[ei])){
+                      ei=mid-1;
                 }
                 else{
-                    si=mid+1;
+                      si=mid+1;
                 }
             }
         }
